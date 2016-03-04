@@ -1,3 +1,4 @@
 baseurl = "http://blog.yangxiaochen.com"
+appendPort=false
 languageCode = "zh-CN"
 title = "技术笔记本"
