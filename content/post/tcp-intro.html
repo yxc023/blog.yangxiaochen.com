@@ -1,0 +1,208 @@
++++
+date = "2016-02-09T09:19:32+08:00"
+draft = false
+title = "tcp介绍"
+categories = [ "tcp" ]
++++
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="exporter-version" content="Evernote Mac 6.5 (453175)"/>
+    <meta name="altitude" content="70.31529998779297"/>
+    <meta name="author" content="yxc023@qq.com"/>
+    <meta name="created" content="2016-03-03 09:06:42 +0000"/>
+    <meta name="latitude" content="39.83515602277264"/>
+    <meta name="longitude" content="116.2796173038394"/>
+    <meta name="source" content="desktop.mac"/>
+    <meta name="updated" content="2016-03-03 09:09:20 +0000"/>
+    <title>TCP</title>
+</head>
+<body>
+<div>
+    <p style="box-sizing: border-box; color: rgb(61, 68, 80); font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
+        <strong style="box-sizing: border-box; font-weight: bold;">1、建立连接协议（三次握手）<br
+                style="box-sizing: border-box;"/></strong>（1）客户端发送一个带SYN标志的TCP报文到服务器。这是三次握手过程中的报文1。<br
+            style="box-sizing: border-box;"/>
+        （2） 服务器端回应客户端的，这是三次握手中的第2个报文，这个报文同时带ACK标志和SYN标志。因此它表示对刚才客户端SYN报文的回应；同时又标志SYN给客户端，询问客户端是否准备好进行数据通讯。<br
+            style="box-sizing: border-box;"/>
+        （3） 客户必须再次回应服务段一个ACK报文，这是报文段3。<br style="box-sizing: border-box;"/>
+        <strong style="box-sizing: border-box; font-weight: bold;">2、连接终止协议（四次握手）</strong>
+
+        <!--more-->
+
+
+        <br
+            style="box-sizing: border-box;"/>
+        　 　由于TCP连接是全双工的，因此每个方向都必须单独进行关闭。这原则是当一方完成它的数据发送任务后就能发送一个FIN来终止这个方向的连接。收到一个
+        FIN只意味着这一方向上没有数据流动，一个TCP连接在收到一个FIN后仍能发送数据。首先进行关闭的一方将执行主动关闭，而另一方执行被动关闭。<br style="box-sizing: border-box;"/>
+        　（1） TCP客户端发送一个FIN，用来关闭客户到服务器的数据传送（报文段4）。<br style="box-sizing: border-box;"/>
+        　（2） 服务器收到这个FIN，它发回一个ACK，确认序号为收到的序号加1（报文段5）。和SYN一样，一个FIN将占用一个序号。<br style="box-sizing: border-box;"/>
+        　（3） 服务器关闭客户端的连接，发送一个FIN给客户端（报文段6）。<br style="box-sizing: border-box;"/>
+        　（4） 客户段发回ACK报文确认，并将确认序号设置为收到序号加1（报文段7）。</p>
+    <div style="box-sizing: border-box; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span
+            style="color: rgb(61, 68, 80);"><span style="font-size: 13px;"><span
+            style="font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;"><strong
+            style="box-sizing: border-box; font-weight: bold;">3、状态解释</strong><br style="box-sizing: border-box;"/>
+<strong style="box-sizing: border-box; font-weight: bold;">CLOSED</strong>: 这个没什么好说的了，表示初始状态。<br
+                style="box-sizing: border-box;"/>
+<strong style="box-sizing: border-box; font-weight: bold;">LISTEN</strong>: 这个也是非常容易理解的一个状态，表示服务器端的某个SOCKET处于监听状态，可以接受连接了。<br
+                style="box-sizing: border-box;"/>
+<strong style="box-sizing: border-box; font-weight: bold;">SYN_RCVD</strong>: 这个状态表示接受到了SYN报文，在正常情况下，这个状态是服务器端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂，基本上用netstat你是很难看到这种状态的，除非你特意写了一个客户端测试程序，故意将三次TCP握手过程中最后一个ACK报文不予发送。因此这种状态时，当收到客户端的ACK报文后，它会进入到ESTABLISHED状态。<br
+                style="box-sizing: border-box;"/>
+<strong style="box-sizing: border-box; font-weight: bold;">SYN_SENT</strong>: 这个状态与SYN_RCVD遥想呼应，当客户端SOCKET执行CONNECT连接时，它首先发送SYN报文，因此也随即它会进入到了SYN_SENT状态，并等待服务端的发送三次握手中的第2个报文。SYN_SENT状态表示客户端已发送SYN报文。<br
+                style="box-sizing: border-box;"/>
+<strong style="box-sizing: border-box; font-weight: bold;">ESTABLISHED</strong>：这个容易理解了，表示连接已经建立了。<br
+                style="box-sizing: border-box;"/>
+<strong style="box-sizing: border-box; font-weight: bold;">FIN_WAIT_1</strong>: 这个状态要好好解释一下，其实FIN_WAIT_1和FIN_WAIT_2状态的真正含义都是表示等待对方的FIN报文。而这两种状态的区别是：FIN_WAIT_1状态实际上是当SOCKET在ESTABLISHED状态时，它想主动关闭连接，向对方发送了FIN报文，此时该SOCKET即进入到FIN_WAIT_1状态。而当对方回应ACK报文后，则进入到FIN_WAIT_2状态，当然在实际的正常情况下，无论对方何种情况下，都应该马上回应ACK报文，所以FIN_WAIT_1状态一般是比较难见到的，而FIN_WAIT_2状态还有时常常可以用netstat看到。<br
+                style="box-sizing: border-box;"/>
+<strong style="box-sizing: border-box; font-weight: bold;">FIN_WAIT_2</strong>：上面已经详细解释了这种状态，实际上FIN_WAIT_2状态下的SOCKET，表示半连接，也即有一方要求close连接，但另外还告诉对方，我暂时还有点数据需要传送给你，稍后再关闭连接。<br
+                style="box-sizing: border-box;"/>
+<strong style="box-sizing: border-box; font-weight: bold;">TIME_WAIT</strong>: 表示收到了对方的FIN报文，并发送出了ACK报文，就等2MSL后即可回到CLOSED可用状态了。如果FIN_WAIT_1状态下，收到了对方同时带FIN标志和ACK标志的报文时，可以直接进入到TIME_WAIT状态，而无须经过FIN_WAIT_2状态。<br
+                style="box-sizing: border-box;"/>
+<strong style="box-sizing: border-box; font-weight: bold;">CLOSING</strong>: 这种状态比较特殊，实际情况中应该是很少见，属于一种比较罕见的例外状态。正常情况下，当你发送FIN报文后，按理来说是应该先收到（或同时收到）对方的ACK报文，再收到对方的FIN报文。但是CLOSING状态表示你发送FIN报文后，并没有收到对方的ACK报文，反而却也收到了对方的FIN报文。什么情况下会出现此种情况呢？其实细想一下，也不难得出结论：那就是如果双方几乎在同时close一个SOCKET的话，那么就出现了双方同时发送FIN报文的情况，也即会出现CLOSING状态，表示双方都正在关闭SOCKET连接。<br
+                style="box-sizing: border-box;"/>
+<strong style="box-sizing: border-box; font-weight: bold;">CLOSE_WAIT</strong>: 这种状态的含义其实是表示在等待关闭。怎么理解呢？当对方close一个SOCKET后发送FIN报文给自己，你系统毫无疑问地会回应一个ACK报文给对方，此时则进入到CLOSE_WAIT状态。接下来呢，实际上你真正需要考虑的事情是察看你是否还有数据发送给对方，如果没有的话，那么你也就可以close这个SOCKET，发送FIN报文给对方，也即关闭连接。所以你在CLOSE_WAIT状态下，需要完成的事情是等待你去关闭连接。</span></span></span>
+        <div><span style="color: rgb(61, 68, 80);"><span style="font-size: 13px;"><span
+                style="font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;"><strong
+                style="box-sizing: border-box; font-weight: bold;">LAST_ACK</strong>: 这个状态还是比较容易好理解的，它是被动关闭一方在发送FIN报文后，最后等待对方的ACK报文。当收到ACK报文后，也即可以进入到CLOSED可用状态了。</span></span></span>
+        </div>
+        <div><span style="color: rgb(61, 68, 80);"><span style="font-size: 13px;"><span
+                style="font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;"><br/></span></span></span></div>
+        <div><span style="color: rgb(61, 68, 80);"><span style="font-size: 13px;"><span
+                style="font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;"><br/></span></span></span></div>
+        <div><span style="color: rgb(61, 68, 80);"><span style="font-size: 13px;"><span
+                style="font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;"><br/></span></span></span></div>
+        <div><span style="color: rgb(61, 68, 80);"><span style="font-size: 13px;"><span
+                style="font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;"><br/></span></span></span></div>
+        <div>
+            <div style="color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
+                <strong><span style="font-size: 12px;">tcp状态：</span></strong></div>
+            <div><br
+                    style="color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"/>
+            </div>
+            <div style="color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span
+                    style="font-size: 12px;"><span style="font-size: 12px;">LISTEN：侦听来自远方的TCP端口的连接请求<br/>
+<br/>
+SYN-SENT：再发送连接请求后等待匹配的连接请求<br/>
+<br/>
+SYN-RECEIVED：再收到和发送一个连接请求后等待对方对连接请求的确认<br/>
+<br/>
+ESTABLISHED：代表一个打开的连接<br/>
+<br/>
+FIN-WAIT-1：等待远程TCP连接中断请求，或先前的连接中断请求的确认<br/>
+<br/>
+FIN-WAIT-2：从远程TCP等待连接中断请求<br/>
+<br/>
+CLOSE-WAIT：等待从本地用户发来的连接中断请求<br/>
+<br/>
+CLOSING：等待远程TCP对连接中断的确认<br/>
+<br/>
+LAST-ACK：等待原来的发向远程TCP的连接中断请求的确认<br/>
+<br/>
+TIME-WAIT：等待足够的时间以确保远程TCP接收到连接中断请求的确认<br/>
+<br/>
+CLOSED：没有任何连接状态</span></span></div>
+            <div style="color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
+                <div><span style="font-size: 12px;"><img
+                        src="TCP%E5%A4%8D%E4%B9%A0.resources/5B1CF3E4-2545-47AE-BF83-36A79EFD50E6.jpg" height="746"
+                        width="727"/><span style="font-size: 12px;"><span style="font-size: 12px;"><img
+                        src="TCP%E5%A4%8D%E4%B9%A0.resources/5664423E-C98C-481A-8FC0-7920177DBEE9.jpg" height="1032"
+                        width="731"/></span></span></span></div>
+                <div><span style="font-size: 12px;"><img
+                        src="TCP%E5%A4%8D%E4%B9%A0.resources/614935FC-AA28-4693-AB47-FCC70E8AAAFE.jpg" height="529"
+                        width="469"/></span></div>
+                <div><span style="font-size: 12px;"><img
+                        src="TCP%E5%A4%8D%E4%B9%A0.resources/8247B492-2512-4200-A781-C5665B27AE4E.jpg" height="245"
+                        width="692"/></span></div>
+                <div><span style="font-size: 12px;"><img
+                        src="TCP%E5%A4%8D%E4%B9%A0.resources/09E2FEBB-C427-4E69-A35D-705646BFA348.jpg" height="239"
+                        width="631"/></span></div>
+                <div>
+                    <p><span style="font-size: 12px;">TCP是一个面向连接的协议，所以在连接双方发送数据之前，都需要首先建立一条连接。这和前面讲到的协议完全不同。前面讲的所有协议都只是发送数据而已，大多数都不关心发送的数据是不是送到，UDP尤其明显，从编程的角度来说，UDP编程也要简单的多----UDP都不用考虑数据分片。</span>
+                    </p>
+                    <p><span
+                            style="font-size: 12px;">书中用telnet登陆退出来解释TCP协议连接的建立和中止的过程，可以看到，TCP连接的建立可以简单的称为<strong>三次握手</strong>，而连接的中止则可以叫做<strong>四次握手</strong>。</span>
+                    </p>
+                    <h3 style=" padding: 0px;"><a name="t0" style="color: rgb(51, 102, 153); text-decoration: none;"/><a
+                            target="_blank" name="t0" style="color: rgb(51, 102, 153); text-decoration: none;"/><span
+                            style="font-size: 12px;">1.连接的建立</span></h3>
+                    <p><span style="font-size: 12px;">在建立连接的时候，客户端首先向服务器申请打开某一个端口(用SYN段等于1的TCP报文)，然后服务器端发回一个ACK报文通知客户端请求报文收到，客户端收到确认报文以后再次发出确认报文确认刚才服务器端发出的确认报文（绕口么），至此，连接的建立完成。这就叫做三次握手。如果打算让双方都做好准备的话，一定要发送三次报文，而且只需要三次报文就可以了。</span>
+                    </p>
+                    <p><span style="font-size: 12px;">可以想见，如果再加上TCP的超时重传机制，那么TCP就完全可以保证一个数据包被送到目的地。</span></p>
+                    <h3 style=" padding: 0px;"><a name="t1" style="color: rgb(51, 102, 153); text-decoration: none;"/><a
+                            target="_blank" name="t1" style="color: rgb(51, 102, 153); text-decoration: none;"/><span
+                            style="font-size: 12px;">2.结束连接</span></h3>
+                    <p><span style="font-size: 12px;">TCP有一个特别的概念叫做<em>half-close</em>，这个概念是说，TCP的连接是全双工（可以同时发送和接收）连接，因此在关闭连接的时候，必须关闭传和送两个方向上的连接。客户机给服务器一个FIN为1的TCP报文，然后服务器返回给客户端一个确认ACK报文，并且发送一个FIN报文，当客户机回复ACK报文后（四次握手），连接就结束了。</span>
+                    </p>
+                    <h3 style=" padding: 0px;"><a name="t2" style="color: rgb(51, 102, 153); text-decoration: none;"/><a
+                            target="_blank" name="t2" style="color: rgb(51, 102, 153); text-decoration: none;"/><span
+                            style="font-size: 12px;">3.最大报文长度</span></h3>
+                    <p><span style="font-size: 12px;">在建立连接的时候，通信的双方要互相确认对方的最大报文长度(MSS)，以便通信。一般这个SYN长度是MTU减去固定IP首部和TCP首部长度。对于一个以太网，一般可以达到1460字节。当然如果对于非本地的IP，这个MSS可能就只有536字节，而且，如果中间的传输网络的MSS更佳的小的话，这个值还会变得更小。</span>
+                    </p>
+                    <h3 style=" padding: 0px;"><a name="t3" style="color: rgb(51, 102, 153); text-decoration: none;"/><a
+                            target="_blank" name="t3" style="color: rgb(51, 102, 153); text-decoration: none;"/><span
+                            style="font-size: 12px;">4.TCP的状态迁移图</span></h3>
+                    <p><span style="font-size: 12px;">书P182页给出了TCP的状态图，这是一个看起来比较复杂的状态迁移图，因为它包含了两个部分---服务器的状态迁移和客户端的状态迁移，如果从某一个角度出发来看这个图，就会清晰许多，这里面的服务器和客户端都不是绝对的，发送数据的就是客户端，接受数据的就是服务器。</span>
+                    </p>
+                    <h4 style=" padding: 0px;"><a name="t4" style="color: rgb(51, 102, 153); text-decoration: none;"/><a
+                            target="_blank" name="t4" style="color: rgb(51, 102, 153); text-decoration: none;"/>4.1.客户端应用程序的状态迁移图
+                    </h4>
+                    <p><span style="font-size: 12px;">客户端的状态可以用如下的流程来表示：</span></p>
+                    <p><span style="font-size: 12px;">CLOSED-&gt;SYN_SENT-&gt;ESTABLISHED-&gt;FIN_WAIT_1-&gt;FIN_WAIT_2-&gt;TIME_WAIT-&gt;CLOSED</span>
+                    </p>
+                    <p><span style="font-size: 12px;">以上流程是在程序正常的情况下应该有的流程，从书中的图中可以看到，在建立连接时，当客户端收到SYN报文的ACK以后，客户端就打开了数据交互地连接。而结束连接则通常是客户端主动结束的，客户端结束应用程序以后，需要经历FIN_WAIT_1，FIN_WAIT_2等状态，这些状态的迁移就是前面提到的结束连接的四次握手。</span>
+                    </p>
+                    <h4 style=" padding: 0px;"><a name="t5" style="color: rgb(51, 102, 153); text-decoration: none;"/><a
+                            target="_blank" name="t5" style="color: rgb(51, 102, 153); text-decoration: none;"/>4.2.服务器的状态迁移图
+                    </h4>
+                    <p><span style="font-size: 12px;">服务器的状态可以用如下的流程来表示：</span></p>
+                    <p><span style="font-size: 12px;">CLOSED-&gt;LISTEN-&gt;SYN收到-&gt;ESTABLISHED-&gt;CLOSE_WAIT-&gt;LAST_ACK-&gt;CLOSED</span>
+                    </p>
+                    <p><span style="font-size: 12px;">在建立连接的时候，服务器端是在第三次握手之后才进入数据交互状态，而关闭连接则是在关闭连接的第二次握手以后（注意不是第四次）。而关闭以后还要等待客户端给出最后的ACK包才能进入初始的状态。</span>
+                    </p>
+                    <h4 style=" padding: 0px;"><a name="t6" style="color: rgb(51, 102, 153); text-decoration: none;"/><a
+                            target="_blank" name="t6" style="color: rgb(51, 102, 153); text-decoration: none;"/>4.3.其他状态迁移
+                    </h4>
+                    <p><span style="font-size: 12px;">书中的图还有一些其他的状态迁移，这些状态迁移针对服务器和客户端两方面的总结如下</span></p>
+                    <p> </p>
+                    <ol>
+                        <li><span style="font-size: 12px;">LISTEN-&gt;SYN_SENT，对于这个解释就很简单了，服务器有时候也要打开连接的嘛。</span></li>
+                        <li><span style="font-size: 12px;">SYN_SENT-&gt;SYN收到，服务器和客户端在SYN_SENT状态下如果收到SYN数据报，则都需要发送SYN的ACK数据报并把自己的状态调整到SYN收到状态，准备进入ESTABLISHED</span>
+                        </li>
+                        <li><span style="font-size: 12px;">SYN_SENT-&gt;CLOSED，在发送超时的情况下，会返回到CLOSED状态。</span></li>
+                        <li><span style="font-size: 12px;">SYN_收到-&gt;LISTEN，如果受到RST包，会返回到LISTEN状态。</span></li>
+                        <li><span style="font-size: 12px;">SYN_收到-&gt;FIN_WAIT_1，这个迁移是说，可以不用到ESTABLISHED状态，而可以直接跳转到FIN_WAIT_1状态并等待关闭。</span>
+                        </li>
+                    </ol>
+                    <h4 style=" padding: 0px;"><a name="t7" style="color: rgb(51, 102, 153); text-decoration: none;"/><a
+                            target="_blank" name="t7" style="color: rgb(51, 102, 153); text-decoration: none;"/>4.4.2MSL等待状态
+                    </h4>
+                    <p><span style="font-size: 12px;">书中给的图里面，有一个TIME_WAIT等待状态，这个状态又叫做2MSL状态，说的是在TIME_WAIT2发送了最后一个ACK数据报以后，要进入TIME_WAIT状态，这个状态是防止最后一次握手的数据报没有传送到对方那里而准备的（注意这不是四次握手，这是第四次握手的保险状态）。这个状态在很大程度上保证了双方都可以正常结束，但是，问题也来了。</span>
+                    </p>
+                    <p><span style="font-size: 12px;">由于插口的2MSL状态（插口是IP和端口对的意思，socket），使得应用程序在2MSL时间内是无法再次使用同一个插口的，对于客户程序还好一些，但是对于服务程序，例如httpd，它总是要使用同一个端口来进行服务，而在2MSL时间内，启动httpd就会出现错误（插口被使用）。为了避免这个错误，服务器给出了一个平静时间的概念，这是说在2MSL时间内，虽然可以重新启动服务器，但是这个服务器还是要<strong>平静</strong>的等待2MSL时间的过去才能进行下一次连接。</span>
+                    </p>
+                    <h4 style=" padding: 0px;"><a name="t8" style="color: rgb(51, 102, 153); text-decoration: none;"/><a
+                            target="_blank" name="t8" style="color: rgb(51, 102, 153); text-decoration: none;"/>4.5.FIN_WAIT_2状态
+                    </h4>
+                    <p><span style="font-size: 12px;">这就是著名的半关闭的状态了，这是在关闭连接时，客户端和服务器两次握手之后的状态。在这个状态下，应用程序还有接受数据的能力，但是已经无法发送数据，但是也有一种可能是，客户端一直处于FIN_WAIT_2状态，而服务器则一直处于WAIT_CLOSE状态，而直到应用层来决定关闭这个状态。</span>
+                    </p>
+                    <h3 style=" padding: 0px;"><a name="t9" style="color: rgb(51, 102, 153); text-decoration: none;"/><a
+                            target="_blank" name="t9" style="color: rgb(51, 102, 153); text-decoration: none;"/><span
+                            style="font-size: 12px;">5.RST，同时打开和同时关闭</span></h3>
+                    <p><span style="font-size: 12px;">RST是另一种关闭连接的方式，应用程序应该可以判断RST包的真实性，即是否为异常中止。而同时打开和同时关闭则是两种特殊的TCP状态，发生的概率很小。</span>
+                    </p>
+                    <h3 style=" padding: 0px;"><a name="t10"
+                                                  style="color: rgb(51, 102, 153); text-decoration: none;"/><a
+                            target="_blank" name="t10" style="color: rgb(51, 102, 153); text-decoration: none;"/><span
+                            style="font-size: 12px;">6.TCP服务器设计</span></h3>
+                </div>
+                <div><br/></div>
+                <div><span style="font-size: 12px;">前面曾经讲述过UDP的服务器设计，可以发现UDP的服务器完全不需要所谓的并发机制，它只要建立一个数据输入队列就可以。但是TCP不同，TCP服务器对于每一个连接都需要建立一个独立的进程（或者是轻量级的，线程），来保证对话的独立性。所以TCP服务器是并发的。而且TCP还需要配备一个呼入连接请求队列（UDP服务器也同样不需要），来为每一个连接请求建立对话进程，这也就是为什么各种TCP服务器都有一个最大连接数的原因。而根据源主机的IP和端口号码，服务器可以很轻松的区别出不同的会话，来进行数据的分发。</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
