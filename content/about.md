@@ -19,7 +19,7 @@ title = "关于我"
     服务器配置, 爱折腾.
 
 
-* 前端爱好者. css小能手. 关注Typescript, angular2, react, ionic2.
+* 前端爱好者. css小能手. 关注Typescript, angular2, reactjs, ionic2.
 
 * 资深篮球迷, 业余评论员, 刺密
 

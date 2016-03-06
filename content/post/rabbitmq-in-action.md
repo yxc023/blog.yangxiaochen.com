@@ -4,6 +4,8 @@ draft = false
 title = "rabbitmq使用实践"
 categories = [ "rabbitmq" ]
 +++
+#### 原创, 转载请注明出处[https://blog.yangxiaochen.com](https://blog.yangxiaochen.com)
+
 # MQ数据源
 
 1. ```datasource -> topic exchange```, 数据源已固定格式发入exchange, exchange类型为topic,既可以使用路由route_key, 又可以进行通配. 不要将生产者, 消费者用在同一队列上, 这样耦合度高, 消息无法复用.
