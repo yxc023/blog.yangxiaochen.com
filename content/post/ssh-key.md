@@ -18,4 +18,4 @@ categories = [ "ssh-key" ]
 
 尽量不用手动拷贝 id_rsa.pub 到目标机器, 拷贝之后的文件权限值不对也不能访问. 附送解决方案:
 
-    chmod 644 authorized_keys
+    chmod 600 authorized_keys
