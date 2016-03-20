@@ -3,6 +3,8 @@ date = "2016-02-09T05:19:32+08:00"
 draft = false
 title = "linux进程pid"
 categories = [ "linux","pid" ]
+type="post/linux"
+
 +++
 
 Linux 下启动Java程序一般是执行命令：

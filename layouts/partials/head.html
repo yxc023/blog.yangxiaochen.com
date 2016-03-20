@@ -18,16 +18,21 @@
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    {{ if isset .Site.Params "subscribe_rss" }}
-	<link href='{{ index .Site.Params "subscribe_rss" }}' rel="alternate" title="{{ .Site.Title }}" type="application/atom+xml">
-	{{ end }}
+    <!--{{ if isset .Site.Params "subscribe_rss" }}-->
+	<!--<link href='{{ index .Site.Params "subscribe_rss" }}' rel="alternate" title="{{ .Site.Title }}" type="application/atom+xml">-->
+	<!--{{ end }}-->
 	<link rel="canonical" href="{{ .Permalink }}">
 	<link href="{{ .Site.BaseURL }}/favicon.png" rel="shortcut icon">
+
+	<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<link href="https://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+
 	<link href="{{ .Site.BaseURL }}/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<link href="{{ .Site.BaseURL }}/css/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.gmirror.org/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
-	<script src="//cdn.bootcss.com/jquery/1.7.2/jquery.min.js"></script>
+
+
+	<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+	<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 	{{ partial "custom/head.html" . }}
-  {{ partial "google_analytics.html" . }}
 </head>

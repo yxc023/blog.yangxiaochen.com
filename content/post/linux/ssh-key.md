@@ -3,6 +3,8 @@ date = "2016-02-09T09:19:32+08:00"
 draft = false
 title = "ssh-key生成与配置"
 categories = [ "ssh-key" ]
+type="post/linux"
+
 +++
 
 #### 原创, 转载请注明出处[https://blog.yangxiaochen.com](https://blog.yangxiaochen.com)

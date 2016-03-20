@@ -18,13 +18,13 @@
 					{{ if ne .Params.sharing "false" }}
 						{{ partial "post/sharing.html" . }}
 					{{ end }}
-					{{ if and $.Site.Params.disqus_short_name (ne .Params.comments "false") }}
+					<!--{{ if and $.Site.Params.disqus_short_name (ne .Params.comments "false") }}-->
 					<section id="comment">
 					    <h1 class="title">Comments</h1>
-					    <div id="disqus_thread" aria-live="polite">{{ partial "post/disqus_thread.html" . }}</div>
+					    <!--<div id="disqus_thread" aria-live="polite">{{ partial "post/disqus_thread.html" . }}</div>-->
 					</section>
-					{{ end }}
-					{{ partial "disqus.html" . }}
+					<!--{{ end }}-->
+					<!--{{ partial "disqus.html" . }}-->
 				    </div>
 				</div>
 			</div>

@@ -1,3 +1,11 @@
 
     <h1 class="title" itemprop="name">{{ if $.Site.Params.titlecase }}{{ .Title | title }}{{ else }}{{ .Title }}{{ end }}</h1>
 	<div class="entry-content" itemprop="articleBody">{{ .Content }}</div>
+    <div id="SOHUCS"></div>
+    <script charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/changyan.js" ></script>
+    <script type="text/javascript">
+        window.changyan.api.config({
+            appid: 'cysiPXECq',
+            conf: 'prod_ae8c2fcf65d92ee749cc9cf448e5b285'
+        });
+    </script>
