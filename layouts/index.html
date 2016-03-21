@@ -2,12 +2,12 @@
 
 <body>
 <div class="container">
-    <div class="left-col">
+    <div class="col-md-3">
         <div class="intrude-less">
             <header id="header" class="inner">{{ partial "header.html" . }}</header>
         </div>
     </div>
-    <div class="mid-col">
+    <div class="col-md-9">
         {{ if $.Site.Params.banner }}
         {{ partial "banner.html" . }}
         {{ end }}

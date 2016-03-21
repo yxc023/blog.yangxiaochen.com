@@ -3,6 +3,8 @@ date = "2016-02-09T08:19:32+08:00"
 draft = false
 title = "spring servlet.xml 与 application context.xml 不同"
 categories = [ "spring","spring mvc","config","context" ]
+type="develop"
+
 +++
 
 参考 http://stackoverflow.com/questions/3652090/difference-between-applicationcontext-xml-and-spring-servlet-xml-in-spring

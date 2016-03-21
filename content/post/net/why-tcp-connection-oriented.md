@@ -3,6 +3,7 @@ date = "2016-02-09T11:19:32+08:00"
 draft = false
 title = "为什么说tcp是面向连接的"
 categories = [ "tcp" ]
+type="net"
 +++
 
 TCP使用了三种基础机制来实现面向连接的服务：

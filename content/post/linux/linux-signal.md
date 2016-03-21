@@ -3,7 +3,7 @@ date = "2016-02-09T05:19:32+08:00"
 draft = false
 title = "linux进程信号"
 categories = [ "linux","signal" ]
-type="post/linux"
+type="linux"
 
 +++
 

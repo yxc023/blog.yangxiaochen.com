@@ -3,6 +3,8 @@ date = "2016-02-09T04:19:32+08:00"
 draft = false
 title = "Git中的AutoCRLF与SafeCRLF换行符问题"
 categories = [ "git","crlf" ]
+type="develop"
+
 +++
 
 和其他人配合开发是有时git会提示关于crlf的警告, 这是因为不同平台换行符不同的问题

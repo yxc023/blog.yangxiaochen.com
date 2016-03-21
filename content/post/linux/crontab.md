@@ -3,7 +3,7 @@ date = "2016-02-08T23:20:32+08:00"
 draft = false
 title = "crontab介绍"
 categories = [ "linux", "crontab" ]
-
+type="linux"
 +++
 #### 转载, 记在笔记中, 出处找不到了.
 

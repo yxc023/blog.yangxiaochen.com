@@ -3,6 +3,8 @@ date = "2016-02-09T01:19:32+08:00"
 draft = false
 title = "python入门"
 categories = [ "python" ]
+type="develop"
+
 +++
 #### 原创, 转载请注明出处[https://blog.yangxiaochen.com](https://blog.yangxiaochen.com)
 

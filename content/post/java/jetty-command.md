@@ -3,6 +3,7 @@ date = "2016-02-09T06:19:32+08:00"
 draft = false
 title = "jetty常用命令"
 categories = [ "jetty","java" ]
+type="java"
 +++
 
 ## 创建jetty base

@@ -3,6 +3,7 @@ date = "2016-02-09T00:19:32+08:00"
 draft = false
 title = "mysql存储引擎"
 categories = [ "db", "mysql" ]
+type="develop"
 +++
 #### 转载, 记在笔记中, 出处找不到了.
 MySQL数据库引擎取决于MySQL在安装的时候是如何被编译的。要添加一个新的引擎，就必须重新编译MYSQL。在缺省情况下，MYSQL支持三个引擎：ISAM、MYISAM和HEAP。另外两种类型INNODB和BERKLEY（BDB），也常常可以使用。如果技术高超，还可以使用MySQL++ API自己做一个引擎。下面介绍几种数据库引擎：

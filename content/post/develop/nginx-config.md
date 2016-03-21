@@ -3,6 +3,8 @@ date = "2016-02-09T07:19:32+08:00"
 draft = false
 title = "nginx配置"
 categories = [ "nginx","config" ]
+type="develop"
+
 +++
 
 参考：http://wiki.nginx.org/Main
