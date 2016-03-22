@@ -1,0 +1,7 @@
+.header {
+  height: 400px;
+  background: #222;
+  background-repeat: no-repeat;
+  background-position: center 0;
+  -webkit-background-size: cover;
+  background-size: cover; }

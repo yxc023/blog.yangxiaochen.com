@@ -1,4 +1,6 @@
-{{ partial "custom/footer.html" . }}
-<!-- Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
- -->
-<!--{{ partial "fancybox.html" . }}-->
+Copyright &copy; {{ dateFormat "2006" .Now }}
+{{ if $.Site.Author.name }}
+{{ $.Site.Author.name }}
+{{ else }}
+{{ $.Site.Title }}
+{{ end }}
