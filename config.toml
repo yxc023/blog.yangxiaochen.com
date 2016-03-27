@@ -2,3 +2,6 @@ baseurl = "http://blog.yangxiaochen.com"
 appendPort=false
 languageCode = "zh-CN"
 title = "技术笔记本"
+
+[params]
+  imgCdn = "https://o4g68s7tr.qnssl.com/@/"
