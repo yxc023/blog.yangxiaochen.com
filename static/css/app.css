@@ -1,5 +1,9 @@
+@import url(https://fonts.googleapis.com/css?family=PT+Mono|Cutive+Mono);
+body {
+  font-family: "PT Mono"; }
+
 .header {
-  height: 400px;
+  height: 250px;
   background: #222;
   background-repeat: no-repeat;
   background-position: center 0;
@@ -7,4 +11,5 @@
   background-size: cover; }
 
 .footer {
-  text-align: center; }
+  text-align: center;
+  margin-bottom: 20px; }
