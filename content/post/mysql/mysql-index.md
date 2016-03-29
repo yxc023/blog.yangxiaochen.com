@@ -2,8 +2,8 @@
 date = "2016-02-08T22:19:32+08:00"
 draft = false
 title = "MySQL的btree索引和hash索引的区别"
-categories = [ "db" ]
-type="db"
+categories = [ "mysql" ]
+type="mysql"
 +++
 
 hash 索引结构的特殊性，其检索效率非常高，索引的检索可以一次定位，不像B-Tree 索引需要从根节点到枝节点，最后才能访问到页节点这样多次的IO访问，所以 Hash 索引的查询效率要远高于 B-Tree 索引。

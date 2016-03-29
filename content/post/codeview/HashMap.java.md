@@ -1,11 +1,38 @@
 +++
 date = "2016-02-08T22:19:32+08:00"
 draft = false
-title = "代码阅读与注解 - HashMap.java"
+title = "HashMap.java"
 categories = [ "codeview" ]
 type="codeview"
 +++
-代码说明
+## 概要
+### 前置基本知识
+数据结构: 哈希表(散列表), 二叉查找树, 红黑树(optional)
+
+### 名词
+1. 桶, 槽: 散列位置.
+2. Entry, Node, TreeNode: Entry为一个键值对, Node和TreeNode都是Entry的一种特别类型.
+
+### 结构
+#### 基本结构
+1. 联列表结构, 内部维护一个`Node<Key, Value>`数组, 数组长度为2的幂. 数组长度为hash桶数量, 也称为容量(capacity), != size.
+2. Node对象除了含有key, value值, 还有next值, 指向下一个被散列在同一个桶中的Entry对象. 所以每个桶中可以看做一个链表.
+3. 当一个桶中的Node数量太多, 那么链表会转化为Tree, 这个桶中的Node会变为TreeNode, 提高了冲撞后的查询效率.
+
+### 主要方法
+1. get()
+2. put()
+3. remove()
+4. keySet()
+5. values()
+
+### 进阶
+1. 树化
+2. 容量策略
+3. hash策略
+4. resize策略
+
+## 源码注解
 
     package java.util;
 
