@@ -39,7 +39,8 @@ type="codeview"
      * capacity too high (or the load factor too low) if iteration performance is
      * important.
      *
-     * 在散列的比较开的情况下提供了常数时间复杂度的操作, 遍历这个map的时间正比于容量(hash槽的数量)+键值对数量.
+     * 在散列的比较开的情况下提供了常数时间复杂度的操作,
+     * 遍历这个map的时间正比于容量(hash槽的数量)+键值对数量.
      * 所以不要把初始容量设的太大以及让负载因子太小
      *
      * <p>An instance of <tt>HashMap</tt> has two parameters that affect its
@@ -109,7 +110,9 @@ type="codeview"
      * modification, the iterator fails quickly and cleanly, rather than risking
      * arbitrary, non-deterministic behavior at an undetermined time in the
      * future.
+     *
      * collection类的迭代器在迭代时对原有集合修改都会直接报异常
+     *
      * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
      * as it is, generally speaking, impossible to make any hard guarantees in the
      * presence of unsynchronized concurrent modification.  Fail-fast iterators
@@ -117,7 +120,9 @@ type="codeview"
      * Therefore, it would be wrong to write a program that depended on this
      * exception for its correctness: <i>the fail-fast behavior of iterators
      * should be used only to detect bugs.</i>
+     *
      * 迭代修改异常不能保证异步修改. 只是用来检测你代码的bug.
+     *
      * <p>This class is a member of the
      * <a href="{@docRoot}/../technotes/guides/collections/index.html">
      * Java Collections Framework</a>.
@@ -244,7 +249,9 @@ type="codeview"
          * otherwise remain independent of these mechanics. (This also
          * requires that a map instance be passed to some utility methods
          * that may create new nodes.)
+         *
          * 普通hashtable 和树状hashtalbe转换 在LinkedHashMap中更复杂...
+         *
          * The concurrent-programming-like SSA-based coding style helps
          * avoid aliasing errors amid all of the twisty pointer operations.
          */
@@ -273,6 +280,8 @@ type="codeview"
          * than 2 and should be at least 8 to mesh with assumptions in
          * tree removal about conversion back to plain bins upon
          * shrinkage.
+         *
+         *
          * 一个槽中的键值对数量超过8就会变为TreeNode
          */
         static final int TREEIFY_THRESHOLD = 8;
@@ -281,6 +290,7 @@ type="codeview"
          * The bin count threshold for untreeifying a (split) bin during a
          * resize operation. Should be less than TREEIFY_THRESHOLD, and at
          * most 6 to mesh with shrinkage detection under removal.
+         *
          * 小于6就变回来
          */
         static final int UNTREEIFY_THRESHOLD = 6;
@@ -290,6 +300,7 @@ type="codeview"
          * (Otherwise the table is resized if too many nodes in a bin.)
          * Should be at least 4 * TREEIFY_THRESHOLD to avoid conflicts
          * between resizing and treeification thresholds.
+         *
          * 槽的数量需要多于64, 存储元素多的槽才会树化, 否则就是resize
          */
         static final int MIN_TREEIFY_CAPACITY = 64;
@@ -297,6 +308,7 @@ type="codeview"
         /**
          * Basic hash bin node, used for most entries.  (See below for
          * TreeNode subclass, and in LinkedHashMap for its Entry subclass.)
+         *
          * 每个hash槽就是Node的链表
          */
         static class Node<K,V> implements Map.Entry<K,V> {
@@ -357,8 +369,8 @@ type="codeview"
          * to incorporate impact of the highest bits that would otherwise
          * never be used in index calculations because of table bounds.
          *
-         * hash方法为key的hashCode值与这个值的高16位进行异或操作的结果.
-         * 因为槽的数量有限,
+         * hash方法为key的hashCode值与其高16位进行异或操作的结果. 以便散列的更开
+         *
          */
         static final int hash(Object key) {
             int h;
@@ -368,6 +380,8 @@ type="codeview"
         /**
          * Returns x's Class if it is of the form "class C implements
          * Comparable<C>", else null.
+         *
+         * 如果有比较器就返回, 因为String是常用key类型, 所以做了特殊判断
          */
         static Class<?> comparableClassFor(Object x) {
             if (x instanceof Comparable) {
@@ -391,6 +405,8 @@ type="codeview"
         /**
          * Returns k.compareTo(x) if x matches kc (k's screened comparable
          * class), else 0.
+         *
+         * 返回比较结果
          */
         @SuppressWarnings({"rawtypes","unchecked"}) // for cast to Comparable
         static int compareComparables(Class<?> kc, Object k, Object x) {
@@ -400,6 +416,7 @@ type="codeview"
 
         /**
          * Returns a power of two size for the given target capacity.
+         * 返回2的n次方数, 刚刚大于等于cap
          */
         static final int tableSizeFor(int cap) {
             int n = cap - 1;
@@ -424,6 +441,8 @@ type="codeview"
         /**
          * Holds cached entrySet(). Note that AbstractMap fields are used
          * for keySet() and values().
+         *
+         * 缓存entrySet, keySet(), values()用这个字段实现
          */
         transient Set<Map.Entry<K,V>> entrySet;
 
@@ -438,6 +457,8 @@ type="codeview"
          * the HashMap or otherwise modify its internal structure (e.g.,
          * rehash).  This field is used to make iterators on Collection-views of
          * the HashMap fail-fast.  (See ConcurrentModificationException).
+         *
+         * 结构更改次数, 可以看做是版本号, 当迭代集合视图时时如果返现modCount变化, 则抛出ConcurrentModificationException
          */
         transient int modCount;
 
@@ -445,6 +466,8 @@ type="codeview"
          * The next size value at which to resize (capacity * load factor).
          *
          * @serial
+         *
+         * 下一次容量变化的阈
          */
         // (The javadoc description is true upon serialization.
         // Additionally, if the table array has not been allocated, this
@@ -456,6 +479,8 @@ type="codeview"
          * The load factor for the hash table.
          *
          * @serial
+         *
+         * 当前对象的负载因子
          */
         final float loadFactor;
 
@@ -527,11 +552,11 @@ type="codeview"
             int s = m.size();
             if (s > 0) {
                 if (table == null) { // pre-size
-                    float ft = ((float)s / loadFactor) + 1.0F;
+                    float ft = ((float)s / loadFactor) + 1.0F; // 根据负载因子算出最小容量
                     int t = ((ft < (float)MAXIMUM_CAPACITY) ?
                              (int)ft : MAXIMUM_CAPACITY);
                     if (t > threshold)
-                        threshold = tableSizeFor(t);
+                        threshold = tableSizeFor(t); // 根据这个容量产生新的2的n次方作为新容量
                 }
                 else if (s > threshold)
                     resize();
@@ -589,9 +614,15 @@ type="codeview"
          * @param hash hash for key
          * @param key the key
          * @return the node, or null if none
+         *
+         * 关键方法, get
+         * 该方法在查找到相应的桶的时候不管三七二十一先检查第一个元素是不是, 因为很大概率是.
+         * 然后才看这个桶是否是TreeNode
          */
         final Node<K,V> getNode(int hash, Object key) {
             Node<K,V>[] tab; Node<K,V> first, e; int n; K k;
+
+            // table不为空, 且对应桶中有元素
             if ((tab = table) != null && (n = tab.length) > 0 &&
                 (first = tab[(n - 1) & hash]) != null) {
                 if (first.hash == hash && // always check first node
@@ -599,6 +630,7 @@ type="codeview"
                     return first;
                 if ((e = first.next) != null) {
                     if (first instanceof TreeNode)
+                        // 如果是TreeNode, 调用TreeNode的查找方法
                         return ((TreeNode<K,V>)first).getTreeNode(hash, key);
                     do {
                         if (e.hash == hash &&
@@ -647,46 +679,65 @@ type="codeview"
          * @param onlyIfAbsent if true, don't change existing value
          * @param evict if false, the table is in creation mode.
          * @return previous value, or null if none
+         *
+         * 关键方法 put
+         *
          */
         final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                        boolean evict) {
             Node<K,V>[] tab; Node<K,V> p; int n, i;
             if ((tab = table) == null || (n = tab.length) == 0)
                 n = (tab = resize()).length;
+
+            // 如果桶中空, 直接赋值
             if ((p = tab[i = (n - 1) & hash]) == null)
                 tab[i] = newNode(hash, key, value, null);
             else {
                 Node<K,V> e; K k;
+                // key相等, 替换
                 if (p.hash == hash &&
                     ((k = p.key) == key || (key != null && key.equals(k))))
                     e = p;
+                // key不相等, 但桶为TreeNode, 调用TreeNode的put方法
                 else if (p instanceof TreeNode)
                     e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+                // key不相等, 桶为正常的,
                 else {
+                    // 遍历链表
                     for (int binCount = 0; ; ++binCount) {
+                        // 找到可插入位置
                         if ((e = p.next) == null) {
                             p.next = newNode(hash, key, value, null);
+                            // 如果达到变成TreeNode的阈值, 变树
                             if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
                                 treeifyBin(tab, hash);
                             break;
                         }
+                        // 找到相同的key, 跳出循环
                         if (e.hash == hash &&
                             ((k = e.key) == key || (key != null && key.equals(k))))
                             break;
+                        // 向后遍历
                         p = e;
                     }
                 }
+                // 存在这个key
                 if (e != null) { // existing mapping for key
                     V oldValue = e.value;
                     if (!onlyIfAbsent || oldValue == null)
                         e.value = value;
+                    // TODO
                     afterNodeAccess(e);
+
+                    // 结构没有变化, modCount, size不用改
                     return oldValue;
                 }
             }
+            // 更改版本
             ++modCount;
             if (++size > threshold)
                 resize();
+            // TODO
             afterNodeInsertion(evict);
             return null;
         }
@@ -699,6 +750,7 @@ type="codeview"
          * with a power of two offset in the new table.
          *
          * @return the table
+         * 关键方法, resize ,重建hash表
          */
         final Node<K,V>[] resize() {
             Node<K,V>[] oldTab = table;
@@ -777,12 +829,16 @@ type="codeview"
         /**
          * Replaces all linked nodes in bin at index for given hash unless
          * table is too small, in which case resizes instead.
+         *
+         * 尝试对一个桶进行树化操作
          */
         final void treeifyBin(Node<K,V>[] tab, int hash) {
             int n, index; Node<K,V> e;
+            // 如果表比较小, resize, 不树化
             if (tab == null || (n = tab.length) < MIN_TREEIFY_CAPACITY)
                 resize();
             else if ((e = tab[index = (n - 1) & hash]) != null) {
+                // 找到要🌲化的桶, 对每个Node元素替换成TreeNode, 组装一个TreeNode链表
                 TreeNode<K,V> hd = null, tl = null;
                 do {
                     TreeNode<K,V> p = replacementTreeNode(e, null);
@@ -794,6 +850,8 @@ type="codeview"
                     }
                     tl = p;
                 } while ((e = e.next) != null);
+
+                // 对TreeNode链表变成Tree结构
                 if ((tab[index] = hd) != null)
                     hd.treeify(tab);
             }
@@ -835,6 +893,8 @@ type="codeview"
          * @param matchValue if true only remove if value is equal
          * @param movable if false do not move other nodes while removing
          * @return the node, or null if none
+         *
+         * 关键操作, remove
          */
         final Node<K,V> removeNode(int hash, Object key, Object value,
                                    boolean matchValue, boolean movable) {
@@ -898,6 +958,8 @@ type="codeview"
          * @param value value whose presence in this map is to be tested
          * @return <tt>true</tt> if this map maps one or more keys to the
          *         specified value
+         *
+         * 遍历操作查询value
          */
         public boolean containsValue(Object value) {
             Node<K,V>[] tab; V v;
@@ -927,6 +989,8 @@ type="codeview"
          * operations.
          *
          * @return a set view of the keys contained in this map
+         *
+         * KeySet() 用KeySet内部类实现
          */
         public Set<K> keySet() {
             Set<K> ks;
@@ -974,6 +1038,8 @@ type="codeview"
          * support the <tt>add</tt> or <tt>addAll</tt> operations.
          *
          * @return a view of the values contained in this map
+         *
+         * 使用Values内部类实现
          */
         public Collection<V> values() {
             Collection<V> vs;
@@ -1019,6 +1085,8 @@ type="codeview"
          * <tt>add</tt> or <tt>addAll</tt> operations.
          *
          * @return a set view of the mappings contained in this map
+         *
+         * 使用EntrySet内部类实现
          */
         public Set<Map.Entry<K,V>> entrySet() {
             Set<Map.Entry<K,V>> es;
