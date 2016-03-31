@@ -6,4 +6,5 @@ categories = [ "workflow", "activiti" ]
 type="workflow"
 +++
 
-## TODO
+##
+1. 状态机
