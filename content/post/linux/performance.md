@@ -1,8 +1,8 @@
 +++
 date = "2016-04-01T23:29:32+08:00"
 draft = false
-title = "性能分析"
-categories = [ "ssh-key" ]
+title = "性能分析vmstat"
+categories = [ "vmstat" ]
 type="linux"
 
 +++
