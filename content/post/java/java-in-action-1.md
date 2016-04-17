@@ -1,7 +1,7 @@
 +++
 date = "2016-04-15T01:19:32+08:00"
 draft = false
-title = "Java开发实践(一)"
+title = "Java开发实践(一. 生态环境)"
 categories = [ "java" ]
 type="java"
 payable="true"
