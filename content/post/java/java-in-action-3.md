@@ -24,11 +24,11 @@ payable="true"
 
 ## Programmatically配置
 
-> 用代码的方式来做配置.
+> 用代码的方式来做配置. JAVA-BASED. 对各个组件的注入声明, 构建初始化, 采用代码的方式来做. 目前Spring中有一些JAVA-BASED配置的相关章节.
 
 有人会说了, 你这就是硬编码了! 容我解释:
 
-    1. 对于bean, 业务, 各种组件的加载, 初始化. 使用Programmatically配置.
+    1. 对于bean, 业务, 各种组件的加载, 初始化. 使用Programmatically的方式来做配置.
     2. 用一个`application.yaml`来作为配置属性的存放.
     3. `application.yaml`拥有多个`application.[env].yaml`的覆盖版本, 用来在不同环境覆盖配置.`application.[env].yaml`可以只是`application.yaml`内容的一部分. 使用构建脚本如gradle来实现覆盖逻辑, 或者在Programmatically配置时实现覆盖逻辑.
     4. `application.yaml`存放所有配置参数. 如各种服务端口, 组件是否加载, 组件的加载参数等等...
