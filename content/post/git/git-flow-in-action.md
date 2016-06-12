@@ -172,3 +172,7 @@ payable="true"
 > 当然, 操作的疏忽依然会产生无意义的commit, 但这并不致命, 注意就好.
 
 > 我对rebase的理解也不是很多, 以上只是应用中的使用体会, 肯定还存在很多没有想到的情况和处理不当的地方, 请大家多提出来指正, 共同讨论.
+
+## 参考
+* [http://jeffkreeftmeijer.com/2010/why-arent-you-using-git-flow/](http://jeffkreeftmeijer.com/2010/why-arent-you-using-git-flow/)
+* [https://git-scm.com/book/zh/v1/Git-分支-分支的衍合](https://git-scm.com/book/zh/v1/Git-分支-分支的衍合)
