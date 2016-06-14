@@ -179,7 +179,10 @@ payable="true"
 
 > 修改完冲突, 我们会进行commit提交冲突修改. **不要使用`git commit -m`, 请直接使用`git commit`, git会识别你这是一个冲突提交.**
 
+
 > 当然, 操作的疏忽依然会产生无意义的commit, 但这并不致命, 注意就好.
+
+> 如果真的要消灭无意义commit: 在你`git pull`之后发现自动合并了, 那么用`git reset --hard [刚刚你本地的提交commit version]`进行本地版本回滚, 然后再`git pull --rebase`
 
 > 我对rebase的理解也不是很多, 以上只是应用中的使用体会, 肯定还存在很多没有想到的情况和处理不当的地方, 请大家多提出来指正, 共同讨论.
 
