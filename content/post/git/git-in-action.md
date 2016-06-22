@@ -1,3 +1,12 @@
++++
+date = "2016-06-21T14:52:32+08:00"
+draft = false
+title = "git分支管理与使用规范"
+categories = [ "git" ]
+type="git"
+payable="true"
++++
+
 # git分支管理与使用规范
 ## 分支管理
 ### flow
