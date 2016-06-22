@@ -46,11 +46,11 @@
 #### feature
 常规功能开发需要从develop分支checkout出feature分支.
 
-    git co -b feature/GET-1008-添加用户查询列表 develop
+    git checkout -b feature/GET-1008-添加用户查询列表 [develop]
     
 开发完毕后合并回develop分支
 
-    git co develop
+    git checkout develop
     git pull // 先更新develop
     git merge feature/GET-1008-添加用户查询列表 --no-ff
     git push origin develop
@@ -61,7 +61,7 @@
 #### Release
 开发完毕, 准备发布:
 
-    git checkout -b release/1.0.0 develop
+    git checkout -b release/1.0.0 [develop]
 
 然后在发布分支上处理一些发布操作, 比如更改版本号, 上线前测试, 问题修改等等. 当分支可以进行上线发布后:
 
@@ -78,7 +78,7 @@
 
 然后, 我们可以激活masterfix分支, 同步一下已经上线的master分支, 为修改将要出现的线上bug做准备
 
-    git co masterfix
+    git checkout masterfix
     git merge master // 在正常情况下, 这里一定是fast-faward
 
 ## hotfix
@@ -113,6 +113,8 @@
 * masterfix --  online-bug-fix
 * feature   --  local, dev
 
+### 总结
+
 
 ## 使用规范
 ### 鼓励开分支
@@ -136,7 +138,7 @@
 
 ### 保留分支信息
 
-在分支合并时使用 `--no-ff` 参数生成merge commit
+在不同分支合并时使用 `--no-ff` 参数生成merge commit
 
     commit e562022b423f7bf29f77927dea4d13cb05230681
     Merge: d88f815 799b7f8
@@ -158,7 +160,7 @@
         修改 auth
 
 
-### 减少以及消除无意义merge
+### 减少以及消除无意义的分支内merge
 
 同一分支更新时要避免产生无意义的merge
 
@@ -198,7 +200,26 @@
 
 ### 常用操作
 
-    git reset
+回滚
+    git reset --hard [version]  // 丢弃版本后的所有修改
+    git reset [version]         // 保留版本后的所有已提交修改
+    git reset --soft [version]  // 保留版本后的所有已提交修改到commit stage
+
+补充提交
+
     git commit --amend
 
+提交tag到服务器
+
+    git push origin --tags
+
+日志与diff
+
     sourcetree // 软件
+
+# 参考
+[http://nvie.com/posts/a-successful-git-branching-model/](http://nvie.com/posts/a-successful-git-branching-model/)
+
+[Git 工作流程](http://www.ruanyifeng.com/blog/2015/12/git-workflow.html)
+
+[合并commit](http://www.ruanyifeng.com/blog/2015/08/git-use-process.html)
