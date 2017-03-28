@@ -19,21 +19,21 @@ gradle 是一个相对比较新的构建工具, 相对使用人群较少, 略有
 
 ## 常规使用
 
-#### 创建项目
+### 创建项目
 
 创建 gradle 的项目非常简单,  「new」-> 「project」-> 选择 Gradle 项目
 
-#### 引入已有项目
+### 引入已有项目
 
 如果已有 gradle 项目, 即文件中有 build.gradle 构建文件. 「open」build.gradle 文件即可.
 
-#### 在非gradle项目中加入gradle
+### 在非gradle项目中加入gradle
 
 一个项目已经打开, IDEA 里却没有 gradle 标签栏.
 
 「Configura project structure」-> 「Modules」-> add -> 「Import Modules」, 将 build.gradle 文件引入.
 
-#### 修改gradle文件后, 更新项目. 这里是重点哦
+### 修改gradle文件后, 更新项目. 这里是重点哦
 
 如果是按照上面的步骤导入的项目, 那么在更新完`build.gradle`文件后, 需要点击 IDEA 右侧 tab 中 gradle 的标签, 然后点击刷新. 这个目的是让 IDEA 识别`build.gradle`中的配置, 根据配置重新组织项目结构, 包括 module, libs 等, 以便让 IDEA 配合我们工作.   
 
@@ -59,7 +59,7 @@ apply plugin: 'idea'
 
 ### build速度慢
 
-##### 替换仓库
+#### 替换仓库
 
 首先来说可以替换`repositories`, 使用阿里云的仓库
 
@@ -73,7 +73,7 @@ repositories {
 
 再者, 有的同学使用私服, 可能是公司搭建的. 这个有时候会有不稳定, 且有时需要认证的情况. 看稍后的章节.
 
-##### 如何debug
+#### 如何debug
 
 gradle 运行中的提示并不算很友好, 尤其在链接仓库和下载jar包时, 在连接有问题的时候, 经常没有提示(新版本的可能好一些.)
 
@@ -96,7 +96,7 @@ gradle idea -id --no-daemon
 
 在 IDEA 刷新有问题时, 可以执行这个命令debug, 一般这个命令能成功, 那么 IDEA 刷新通常也能成功. (请注意版本问题, 命令行里执行的 gradle 版本需要跟 IDEA 里配置的 gradle 版本一致)
 
-##### 私服使用和包管理混乱引起的问题
+#### 私服使用和包管理混乱引起的问题
 
 私服使用中会有以下问题: 
 
@@ -191,7 +191,7 @@ configurations {
 
 ### 遇到过的bug
 
-##### compile依赖被idea设置为provide
+#### compile依赖被idea设置为provide
 
 IDEA 2017 以前版本在使用 gradle 3.4+ 版本时, 刷新后 compile 的依赖会被解释为 provide依赖. 在使用 IDEA 运行程序的时候会报 ClassNotFound 之类的错误.
 
