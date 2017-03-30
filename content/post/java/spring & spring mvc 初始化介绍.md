@@ -3,7 +3,7 @@ date = "2017-03-30T19:19:32+08:00"
 draft = false
 title = "spring & spring mvc 初始化介绍"
 categories = [ "spring","spring mvc","config","context" ]
-type="develop"
+type="java"
 
 +++
 
