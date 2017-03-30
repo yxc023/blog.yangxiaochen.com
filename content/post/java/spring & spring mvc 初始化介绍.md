@@ -27,7 +27,7 @@ SpringContextListener 与 DispatcherServlet 结合
 
 ### 继承树
 
-![context继承.png](context继承.png)
+![context继承.png](http://img.yangxiaochen.com/image/blog/context继承.png)
 
 ### 重要组件
 
@@ -61,7 +61,7 @@ public static final String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
 
 `ContextLoaderListener` 配置在 web.xml 中, 在容器启动时初始化.
 
-![ContextLoaderListener.png](ContextLoaderListener.png)
+![ContextLoaderListener.png](http://img.yangxiaochen.com/image/blog/ContextLoaderListener.png)
 
 
 
@@ -105,7 +105,7 @@ public static final String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
 
 `DispatcherServlet` 配置在 web.xml 中, 在第一次访问时初始化.
 
-![DispatcherServlet.png](DispatcherServlet.png)
+![DispatcherServlet.png](http://img.yangxiaochen.com/image/blog/DispatcherServlet.png)
 
 部分较为重要步骤解释:
 
