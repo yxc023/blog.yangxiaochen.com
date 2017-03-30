@@ -15,4 +15,4 @@ body {
   margin-bottom: 20px; }
 
 article .entry-content img {
-  width: 100%; }
+  max-width: 100%; }
