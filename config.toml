@@ -4,4 +4,4 @@ languageCode = "zh-CN"
 title = "技术笔记本"
 
 [params]
-  imgCdn = "htt:ps://o4g68s7tr.qnssl.com/@/"
+  imgCdn = "https://o4g68s7tr.qnssl.com/@/"
