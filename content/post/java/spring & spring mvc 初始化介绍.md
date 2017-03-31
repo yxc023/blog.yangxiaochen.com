@@ -69,9 +69,7 @@ public static final String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
 
 >3) 决定spring web app context类型. 不指定的情况下默认策略创建 `XmlWebApplicationContext`
 
-
 >16) 以 bean 的 configuration 文件, 就是一般我们说的xml文件 为入口, 加载 `BeanDefinition` 到 bean factory. 注意仅仅是加载 bean 的描述, 而没有实例化这些 bean
-
 
 > 17) 实例化执行所有的 `BeanFactoryPostProcessor`, 从 `BeanDefinition` 中和 context 的 `beanFactoryPostProcessors` 字段中查找.
 >
@@ -79,33 +77,25 @@ public static final String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
 >
 > 这一步通常在调用各个 processor 时, 产生新的 bean 定义到 bean factory
 
-
 > 18) 注册 `BeanPostProcessor` , 从 `BeanDefinition` 中查找.
 >
 > `BeanPostProcessor` 会在之后每个 bean 实例化之后调用, 用来对 bean 做一些其他操作, 比如放入一些参数: 像 `AutowiredAnnotationBeanPostProcessor` 的作用就是注入 `@Autowired` 字段.
 >
 > 生成动态代理对象也是通过  `BeanPostProcessor` 实现的.
 
-
 > 21) `onRefresh ` 是用来初始化其他的特殊的 bean, 这部分逻辑通常在特殊的 context 子类实现
 >
 > 比如在 spring boot 中使用的 `AnnotationConfigEmbeddedWebApplicationContext` 中, 会在这里初始化并启动内嵌服务器 
 
-
 > 22) 将在  `BeanDefinition` 中的, 还有之前设置到context属性中的  `ApplicationListener` 加到广播列表中
-
 
 > 23) 将  `BeanDefinition`  中其他的非懒加载的 bean 实例化.
 
-
 > 24) 实例化并调用 `LifecycleProcessor` , 然后广播 `ContextRefreshedEvent`
-
 
 > 26) 将 context 放到 `ServletContext` 的 attribute 属性里, 之后 `DispatcherServlet` 初始化会用到
 
-
 > > *以上说的 bean 均为 singleton 的 scope
-
 
 ### DispatcherServlet
 
@@ -123,10 +113,39 @@ public static final String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
 
 > 10) 触发  `ContextRefreshedEvent` , 初始化 spring mvc 的组件, 添加到 `DispatcherServlet` 中.
 
-## 一些特殊类型Bean的初始化时机
+## 一些特殊类型Bean的初始化时机 (待完善, 请持续补充)
 
-TODO
+### BeanFactoryPostProccesor
+
+context refresh 之后, 初始化好 factory 之后, 会先执行 context 自身的 factory post 操作, 然后就会执行  `BeanFactoryPostProccesor`  这种类型 bean 所定义的 factory post 操作.
+
+### BeanDefinitionRegistryPostProcessor
+
+`BeanFactoryPostProccesor` 的子类, 执行优先级比 `BeanFactoryPostProccesor` 要高. 通常可以通过 order 来控制`BeanDefinitionRegistryPostProcessor` 类型的执行顺序, 还跟这个 bean 定义的时机有关, 在 prepare context 阶段定义的总会最先执行.
+
+通常自定义的 xml 和 bean 配置 会在这个阶段被定义到 factory.  
+
+### BeanPostProccesor
+
+在 `BeanFactoryPostProccesor` 都执行完之后实例化, 并 apply 到 factory ,  在一个 bean 初始化之后会被调用.
+
+### Aware
+
+如 `ApplicationContextAware` , 实现这个接口的 bean 会由一个 `BeanPostProccesor` 类型的  `ApplicationContextAwareProcessor` 在初始化之后 set 一个 application context
+
+Aware 相关类的很多, 都类似
+
+### ApplicationListener
+
+用来监听 context 生命周期中各个事件的类, 可以在 prepare 和 refresh 阶段注入
+
+### ApplicationContextInitializer
+
+prepare context 阶段执行, 在 context refresh之前执行. 可以对 context 注入 `BeanFactoryPostProccesor` 和 `ApplicationListener`
+
+
 
 ## Bean 的初始化过程详解
 
 TODO
+
