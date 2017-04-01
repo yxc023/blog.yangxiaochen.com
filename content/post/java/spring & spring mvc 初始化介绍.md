@@ -7,27 +7,44 @@ type="java"
 
 +++
 
+
 # spring & spring mvc 初始化介绍
 
 ## web项目的结构
 
 ### java servlet 技术
 
-请看实例简单复习 servlet, listner, filter
+java servlet 技术是 java 的一个 web 服务规范, 提供了统一的 servlet api 供各个容器厂商实现, 以保证一个 java web 项目可以运行在不同厂商的服务器下.
+
+请看实例简单复习下 servlet, listner, filter
+
+listner, filter 会在 web 容器启动时执行 init 方法 
+
+servlet 会在第一次访问时进行初始化. 当然也可以设置 init on start
 
 ### 非 servlet 规范的 java web 项目
 
-使用netty作为服务器lib, 自行完成处理 http 请求读写
+使用netty作为服务器lib, 加入 http 协议的处理层,  自行完成处理 http 请求读写
 
-### spring 的的封装
+### spring mvc 的的封装
 
-SpringContextListener 与 DispatcherServlet 结合
+我们最常用到的 spring mvc 框架就是对 servlet 技术的封装, 在 web.xml 中加入实现 `Listenner` 的 `SpringContextListener` 和实现了 `Servlet` 的 `DispatcherServlet`, 来对spring 和 spring mvc 进行初始化. 
 
 ## spring context 结构
+
+spring context 是整个 spring 的核心, 通常也被叫做 spring 容器. 通常讲的 spring 初始化过程, 就是初始化 spring context 的过程.
+
+根据应用不同, 使用的 spring  context 类型也不同
 
 ### 继承树
 
 ![context继承.png](http://img.yangxiaochen.com/image/blog/context继承.png)
+
+
+
+常见的 war 包形式的 web 应用, 使用的是 `XmlWebApplicationContext`
+
+spring boot 默认使用的是 `AnnotationConfigEmbeddedWebApplicationContext`
 
 ### 重要组件
 
@@ -53,9 +70,32 @@ public static final String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
 
 
 
+## spring context 初始化过程概念概览
+
+一个 spring context 的初始化过程大致分为以下几个阶段:
+
+1. 读取并设置系统参数, 环境变量, 获取一些初始化 context 需要的组件, 比如 ApplicationContextInitializer 等.
+
+   这个属于context 初始化的前置逻辑, 由应用自己控制, 我们也可自己来写, 用来给后面 context 初始化做准备
+
+   这一步根据应用不同差别很大, 比如传统 war 包的 ContextLoadListner 和 spring boot 的 SpringApplication 中的逻辑就很不同.
+
+2. create context
+
+   根据应用不通, 创建不同的 context
+
+3. configure context
+
+   用第1步获得的参数和组件, 来配置创建好的 context
+
+4. context.refresh
+
+   核心步骤, context 初始化的具体过程就在这里. 
+
+   包括分门别类的加载各种特殊的 bean, 然后加载普通的ben 
 
 
-## spring 初始化过程概览(非 spring boot 的传统war包)
+## spring 初始化过程实例概览(非 spring boot 的传统war包)
 
 ### ContextLoaderListener
 
@@ -67,35 +107,37 @@ public static final String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
 
 部分较为重要步骤解释:
 
->3) 决定spring web app context类型. 不指定的情况下默认策略创建 `XmlWebApplicationContext`
+* 3) 决定spring web app context类型. 不指定的情况下默认策略创建 `XmlWebApplicationContext`
 
->16) 以 bean 的 configuration 文件, 就是一般我们说的xml文件 为入口, 加载 `BeanDefinition` 到 bean factory. 注意仅仅是加载 bean 的描述, 而没有实例化这些 bean
+* 16) 以 bean 的 configuration 文件, 就是一般我们说的xml文件 为入口, 加载 `BeanDefinition` 到 bean factory. 注意仅仅是加载 bean 的描述, 而没有实例化这些 bean
 
-> 17) 实例化执行所有的 `BeanFactoryPostProcessor`, 从 `BeanDefinition` 中和 context 的 `beanFactoryPostProcessors` 字段中查找.
->
-> `BeanFactoryPostProcessor`是意图在 bean factory 加载了所有定义的 bean 定义之后, 且在这些 bean 实例化之前, 做一些操作.
->
-> 这一步通常在调用各个 processor 时, 产生新的 bean 定义到 bean factory
+* 17) 实例化执行所有的 `BeanFactoryPostProcessor`, 从 `BeanDefinition` 中和 context 的 `beanFactoryPostProcessors` 字段中查找.
 
-> 18) 注册 `BeanPostProcessor` , 从 `BeanDefinition` 中查找.
->
-> `BeanPostProcessor` 会在之后每个 bean 实例化之后调用, 用来对 bean 做一些其他操作, 比如放入一些参数: 像 `AutowiredAnnotationBeanPostProcessor` 的作用就是注入 `@Autowired` 字段.
->
-> 生成动态代理对象也是通过  `BeanPostProcessor` 实现的.
+* `BeanFactoryPostProcessor`是意图在 bean factory 加载了所有定义的 bean 定义之后, 且在这些 bean 实例化之前, 做一些操作.
 
-> 21) `onRefresh ` 是用来初始化其他的特殊的 bean, 这部分逻辑通常在特殊的 context 子类实现
->
-> 比如在 spring boot 中使用的 `AnnotationConfigEmbeddedWebApplicationContext` 中, 会在这里初始化并启动内嵌服务器 
+  这一步通常在调用各个 processor 时, 产生新的 bean 定义到 bean factory
 
-> 22) 将在  `BeanDefinition` 中的, 还有之前设置到context属性中的  `ApplicationListener` 加到广播列表中
+* 18) 注册 `BeanPostProcessor` , 从 `BeanDefinition` 中查找.
 
-> 23) 将  `BeanDefinition`  中其他的非懒加载的 bean 实例化.
+* `BeanPostProcessor` 会在之后每个 bean 实例化之后调用, 用来对 bean 做一些其他操作, 比如放入一些参数: 
 
-> 24) 实例化并调用 `LifecycleProcessor` , 然后广播 `ContextRefreshedEvent`
+  像 `AutowiredAnnotationBeanPostProcessor` 的作用就是注入 `@Autowired` 字段.
 
-> 26) 将 context 放到 `ServletContext` 的 attribute 属性里, 之后 `DispatcherServlet` 初始化会用到
+  生成动态代理对象也是通过  `BeanPostProcessor` 实现的.
 
-> > *以上说的 bean 均为 singleton 的 scope
+* 21) `onRefresh ` 是用来初始化其他的特殊的 bean, 这部分逻辑通常在特殊的 context 子类实现
+
+  比如在 spring boot 中使用的 `AnnotationConfigEmbeddedWebApplicationContext` 中, 会在这里初始化并启动内嵌服务器 
+
+* 22) 将在  `BeanDefinition` 中的, 还有之前设置到context属性中的  `ApplicationListener` 加到广播列表中
+
+* 23) 将  `BeanDefinition`  中其他的非懒加载的 bean 实例化.
+
+* 24) 实例化并调用 `LifecycleProcessor` , 然后广播 `ContextRefreshedEvent`
+
+* 26) 将 context 放到 `ServletContext` 的 attribute 属性里, 之后 `DispatcherServlet` 初始化会用到
+
+> *以上说的 bean 均为 singleton 的 scope
 
 ### DispatcherServlet
 
@@ -105,13 +147,10 @@ public static final String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
 
 部分较为重要步骤解释:
 
-> 5) 以 `ContextLoaderListener`创建的 context 为 parent, 创建新的 `XmlWebApplicationContext`
-
-> 8) 创建一个 `ContextRefreshListener` , 加入到 context 中, 监听 `ContextRefreshedEvent`
-
-> 9) refresh 过程跟`ContextLoaderListener` 一样, 不同的是在查找 bean 时, 能够查到 parent context 的 bean, 供新的 context 初始化使用.
-
-> 10) 触发  `ContextRefreshedEvent` , 初始化 spring mvc 的组件, 添加到 `DispatcherServlet` 中.
+* 5) 以 `ContextLoaderListener`创建的 context 为 parent, 创建新的 `XmlWebApplicationContext`
+* 8) 创建一个 `ContextRefreshListener` , 加入到 context 中, 监听 `ContextRefreshedEvent`
+* 9) refresh 过程跟`ContextLoaderListener` 一样, 不同的是在查找 bean 时, 能够查到 parent context 的 bean, 供新的 context 初始化使用.
+* 10) 触发  `ContextRefreshedEvent` , 初始化 spring mvc 的组件, 添加到 `DispatcherServlet` 中.
 
 ## 一些特殊类型Bean的初始化时机 (待完善, 请持续补充)
 
