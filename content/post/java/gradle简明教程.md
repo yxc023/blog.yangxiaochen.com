@@ -32,30 +32,30 @@ gradle 是一个构建工具。负责管理项目依赖，组织项目结构，�
 
 1. 新建一个文件夹作为项目文件夹
 
-   ```shell
+   ```
    mkdir project-example
    cd project-example
    ```
 
 2. 使用 gradle 初始化
 
-   ```shell
+   ```
    gradle init
    ```
 
    然后目录下会生成这些文件
 
-   ```shell
-   build.gradle // 构建脚本文件，主要的构建配置都在这里写
-   gradle // 存放gradle wrapper 执行配置和工具的文件夹，
-   gradlew // gradle wrapper 执行脚本文件，用来在没有安装 gradle 的情况下执行 gradle 命令。当然，第一次执行时会下载 gradle。
-   gradlew.bat // gradle wrapper 执行脚本文件的 windows 版
-   settings.gradle // 项目配置，指明根项目名字和引入的 module
+   ```
+   build.gradle     // 构建脚本文件，主要的构建配置都在这里写
+   gradle           // 存放gradle wrapper 执行配置和工具的文件夹，
+   gradlew          // gradle wrapper 执行脚本文件，用来在没有安装 gradle 的情况下执行 gradle 命令。当然，第一次执行时会下载 gradle。
+   gradlew.bat      // gradle wrapper 执行脚本文件的 windows 版
+   settings.gradle  // 项目配置，指明根项目名字和引入的 module
    ```
 
 3. 修改 build.gradle 文件，结果像下面这样
 
-   ```groovy
+   ```
    /*
    声明插件，声明插件的方式有两种，下面这种是 2.* 版本之后的新的定义方式。可以声明两种插件：
    1. 官方内置插件，如 java，idea。
